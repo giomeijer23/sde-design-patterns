@@ -1,6 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        AHangmanState start = new PlayingState("hangman");
+        String wordToGuess = "hangman"; // Kan vervangen worden door dynamische invoer
+        AHangmanState start = StateFactory.createState("playing", wordToGuess);
         HangmanContext game = new HangmanContext(start);
         game.turn();
     }

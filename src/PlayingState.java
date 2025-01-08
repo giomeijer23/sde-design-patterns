@@ -1,19 +1,17 @@
 public class PlayingState extends AHangmanState {
     private String guessWord;
-
     private String guessedLetters;
-
     private String correctLetters;
-
     private int errors;
+    private WordAdapter wordAdapter;
 
     public PlayingState(String guessWord) {
         super();
         this.guessWord = guessWord;
         this.guessedLetters = "";
-        this.correctLetters = "";
-        for (int i = 0; i < guessWord.length(); i++) { this.correctLetters += "."; }
+        this.correctLetters = ".".repeat(guessWord.length());
         this.errors = 0;
+        this.wordAdapter = new WordAdapter();
     }
 
     public void turn() {
@@ -40,7 +38,8 @@ public class PlayingState extends AHangmanState {
         this.guessedLetters += guess;
         char letter = guess.charAt(0);
 
-        if (isLetterInWord(letter, this.guessWord)) {
+        // Gebruik de WordAdapter voor lettercontrole
+        if (wordAdapter.containsLetter(letter, this.guessWord)) {
             changeShowWord(letter);
             this.writer.writeLine("Good Guess! This letter is in the word\n");
         } else {
@@ -50,7 +49,7 @@ public class PlayingState extends AHangmanState {
 
         if (errors > 7) {
             this.context.changeState(new LoseState());
-        } else if (!isLetterInWord('.', this.correctLetters)) {
+        } else if (!wordAdapter.containsLetter('.', this.correctLetters)) {
             this.context.changeState(new WinState());
         }
 

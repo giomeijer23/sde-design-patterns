@@ -10,7 +10,7 @@ public class WinState extends AHangmanState {
         String check = this.reader.readLine();
         if (check.equalsIgnoreCase("yes")) {
             String wordToGuess = "hangman";
-            this.context.changeState(new PlayingState(wordToGuess));
+            this.context.changeState(StateFactory.createState("playing", wordToGuess));
             this.context.turn();
         } else {
             this.writer.writeLine("OK, have a nice day :)");
