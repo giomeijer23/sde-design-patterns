@@ -1,8 +1,12 @@
 public class PlayingState extends AHangmanState {
     private String guessWord;
+
     private String guessedLetters;
+
     private String correctLetters;
+
     private int errors;
+
     private WordAdapter wordAdapter;
 
     public PlayingState(String guessWord) {
@@ -38,7 +42,6 @@ public class PlayingState extends AHangmanState {
         this.guessedLetters += guess;
         char letter = guess.charAt(0);
 
-        // Gebruik de WordAdapter voor lettercontrole
         if (wordAdapter.containsLetter(letter, this.guessWord)) {
             changeShowWord(letter);
             this.writer.writeLine("Good Guess! This letter is in the word\n");
