@@ -13,4 +13,8 @@ public class HangmanContext {
     public void turn() {
         this.state.turn();
     }
+
+    public void ending() {
+        this.state.ending();
+    }
 }
