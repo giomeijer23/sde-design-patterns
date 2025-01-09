@@ -35,7 +35,6 @@ public class PlayingState extends AHangmanState {
 
         if (letterProxy.isLetterAlreadyGuessed(letter)) {
             this.writer.writeLine("You have already guessed this letter. Try another one.\n");
-            this.turn();
             return;
         }
 
@@ -49,13 +48,26 @@ public class PlayingState extends AHangmanState {
             this.errors++;
         }
 
-        if (errors > 7) {
+        // Controleer verliesconditie
+        if (errors >= 7) {
             this.context.changeState(new LoseState());
-        } else if (!wordAdapter.containsLetter('.', this.correctLetters)) {
+            this.context.ending();
+            return;
+        }
+
+        // Controleer winstconditie
+        if (!this.correctLetters.contains(".")) {
             this.context.changeState(new WinState());
+            this.context.ending();
+            return;
         }
 
         this.context.turn();
+    }
+
+
+    public void ending() {
+        // does nothing
     }
 
     private void changeShowWord(char letter) {

@@ -1,16 +1,28 @@
 public class HangmanContext {
-    private AHangmanState state;
-
-    public HangmanContext(AHangmanState state) {
-        this.state = state;
-        state.setContext(this);
-    }
+    private AHangmanState currentState;
 
     public void changeState(AHangmanState newState) {
-        this.state = newState;
+        this.currentState = newState;
+        this.currentState.setContext(this);
+    }
+
+    public AHangmanState getCurrentState() {
+        return this.currentState;
     }
 
     public void turn() {
-        this.state.turn();
+        if (currentState != null) {
+            currentState.turn();
+        } else {
+            throw new IllegalStateException("No state is set.");
+        }
+    }
+
+    public void ending() {
+        if (currentState != null) {
+            currentState.ending();
+        } else {
+            throw new IllegalStateException("No state is set.");
+        }
     }
 }
