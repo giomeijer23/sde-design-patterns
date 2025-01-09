@@ -1,52 +1,51 @@
 public class PlayingState extends AHangmanState {
     private String guessWord;
-
-    private String guessedLetters;
-
     private String correctLetters;
-
     private int errors;
-
     private WordAdapter wordAdapter;
+    private LetterProxy letterProxy;
 
     public PlayingState(String guessWord) {
         super();
         this.guessWord = guessWord;
-        this.guessedLetters = "";
         this.correctLetters = ".".repeat(guessWord.length());
         this.errors = 0;
-        this.wordAdapter = new WordAdapter();
+        this.wordAdapter = WordAdapter.getInstance();
+        this.letterProxy = new LetterProxy();
     }
 
     public void turn() {
         this.writer.writeLine("This is what you know right now: " + correctLetters + "\n");
-        if (!guessedLetters.isEmpty()) {
-            this.writer.writeLine("These are the letters you have already guessed: " + guessedLetters + "\n");
-        }
-        if (errors == 7) {
-            this.writer.writeLine("You have no mistakes left, be careful!");
-        } else if (errors > 0) {
-            this.writer.writeLine("You have " + (7 - errors) + " mistakes left");
-        }
-        this.writer.writeLine("What letter do you want to guess?");
 
-        // Checks if only one letter is in the input
+        if (errors > 0) {
+            this.writer.writeLine("You have " + (7 - errors) + " mistakes left.");
+        }
+
+        this.writer.writeLine("What letter do you want to guess?");
         String guess = "";
+
         while (guess.length() != 1) {
             guess = reader.readLine();
             if (guess.length() != 1) {
-                this.writer.writeLine("Please write one letter");
+                this.writer.writeLine("Please write one letter.");
             }
         }
 
-        this.guessedLetters += guess;
         char letter = guess.charAt(0);
+
+        if (letterProxy.isLetterAlreadyGuessed(letter)) {
+            this.writer.writeLine("You have already guessed this letter. Try another one.\n");
+            this.turn();
+            return;
+        }
+
+        letterProxy.addGuessedLetter(letter);
 
         if (wordAdapter.containsLetter(letter, this.guessWord)) {
             changeShowWord(letter);
-            this.writer.writeLine("Good Guess! This letter is in the word\n");
+            this.writer.writeLine("Good guess! This letter is in the word.\n");
         } else {
-            this.writer.writeLine("Yikes! That letter is not in the word\n");
+            this.writer.writeLine("Yikes! That letter is not in the word.\n");
             this.errors++;
         }
 
@@ -63,7 +62,7 @@ public class PlayingState extends AHangmanState {
         for (int i = 0; i < this.guessWord.length(); i++) {
             if (this.guessWord.charAt(i) == letter) {
                 this.correctLetters = this.correctLetters.substring(0, i)
-                        + Character.toString(letter)
+                        + letter
                         + this.correctLetters.substring(i + 1);
             }
         }
