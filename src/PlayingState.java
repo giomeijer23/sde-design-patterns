@@ -50,11 +50,17 @@ public class PlayingState extends AHangmanState {
 
         if (errors > 7) {
             this.context.changeState(new LoseState());
+            this.context.ending();
         } else if (!isLetterInWord('.', this.correctLetters)) {
             this.context.changeState(new WinState());
+            this.context.ending();
+        } else {
+            this.context.turn();
         }
+    }
 
-        this.context.turn();
+    public void ending() {
+        // does nothing
     }
 
     private void changeShowWord(char letter) {

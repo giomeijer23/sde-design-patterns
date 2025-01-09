@@ -22,4 +22,6 @@ public abstract class AHangmanState {
     }
 
     public abstract void turn();
+
+    public abstract void ending();
 }
