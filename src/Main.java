@@ -1,7 +1,11 @@
 public class Main {
     public static void main(String[] args) {
-        AHangmanState start = new PlayingState("hangman");
-        HangmanContext game = new HangmanContext(start);
-        game.turn();
+        HangmanContext context = new HangmanContext();
+        AHangmanState initialState = new PlayingState("hangman");
+        context.changeState(initialState);
+
+        while (!(context.getCurrentState() instanceof EndState)) {
+            context.turn();
+        }
     }
 }

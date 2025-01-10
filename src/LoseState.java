@@ -15,7 +15,8 @@ public class LoseState extends AHangmanState {
         if (check.equalsIgnoreCase("yes")) {
             this.context.turn();
         } else {
-            this.writer.writeLine("OK, have a nice day :)");
+            this.context.changeState(new EndState());
+            this.context.turn();
         }
     }
 }
