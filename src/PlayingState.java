@@ -48,14 +48,12 @@ public class PlayingState extends AHangmanState {
             this.errors++;
         }
 
-        // Controleer verliesconditie
         if (errors >= 7) {
             this.context.changeState(new LoseState());
             this.context.ending();
             return;
         }
 
-        // Controleer winstconditie
         if (!this.correctLetters.contains(".")) {
             this.context.changeState(new WinState());
             this.context.ending();
