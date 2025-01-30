@@ -1,8 +1,14 @@
 public class Main {
     public static void main(String[] args) {
-        HangmanContext context = new HangmanContext();
-        AHangmanState initialState = new PlayingState("hangman");
-        context.changeState(initialState);
+        AHangmanStateFactory stateFactory = new HangmanStateFactory();
+
+        HangmanContext context = new HangmanGameBuilder()
+                .setStateFactory(stateFactory)
+                .setInitialWord("hangman")
+                .build();
+
+        // Gebruik de TimestampedConsoleWriter
+        context.getCurrentState().writer = new TimestampedConsoleWriter();
 
         while (!(context.getCurrentState() instanceof EndState)) {
             context.turn();

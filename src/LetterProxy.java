@@ -4,6 +4,7 @@ import java.util.Set;
 public class LetterProxy {
     private Set<Character> guessedLetters;
 
+    // Pas de constructor aan zodat hij geen argumenten vereist
     public LetterProxy() {
         this.guessedLetters = new HashSet<>();
     }
