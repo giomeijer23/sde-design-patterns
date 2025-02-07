@@ -1,24 +1,22 @@
 public class PlayingState extends AHangmanState {
     private String guessWord;
     private String correctLetters;
-    private int errors;
+    private PlayingStateProxy stateProxy;  // Use the new Proxy class
     private WordAdapter wordAdapter;
-    private LetterProxy letterProxy;
 
     public PlayingState(String guessWord) {
         super();
         this.guessWord = guessWord;
         this.correctLetters = ".".repeat(guessWord.length());
-        this.errors = 0;
+        this.stateProxy = new PlayingStateProxy();  // Initialize the Proxy
         this.wordAdapter = WordAdapter.getInstance();
-        this.letterProxy = new LetterProxy();
     }
 
     public void turn() {
         this.writer.writeLine("This is what you know right now: " + correctLetters + "\n");
 
-        if (errors > 0) {
-            this.writer.writeLine("You have " + (7 - errors) + " mistakes left.");
+        if (stateProxy.getErrors() > 0) {
+            this.writer.writeLine("You have " + (7 - stateProxy.getErrors()) + " mistakes left.");
         }
 
         this.writer.writeLine("What letter do you want to guess?");
@@ -33,29 +31,29 @@ public class PlayingState extends AHangmanState {
 
         char letter = guess.charAt(0);
 
-        if (letterProxy.isLetterAlreadyGuessed(letter)) {
+        if (stateProxy.isLetterAlreadyGuessed(letter)) {
             this.writer.writeLine("You have already guessed this letter. Try another one.\n");
             return;
         }
 
-        letterProxy.addGuessedLetter(letter);
+        stateProxy.addGuessedLetter(letter);
 
         if (wordAdapter.containsLetter(letter, this.guessWord)) {
             changeShowWord(letter);
             this.writer.writeLine("Good guess! This letter is in the word.\n");
         } else {
             this.writer.writeLine("Yikes! That letter is not in the word.\n");
-            this.errors++;
+            stateProxy.incrementErrors();  // Increment errors through the Proxy
         }
 
-        if (errors >= 7) {
-            this.context.changeState(new LoseState());
+        if (stateProxy.isGameOver()) {
+            this.context.changeState("Lose");  // Geef de naam van de staat door
             this.context.ending();
             return;
         }
 
         if (!this.correctLetters.contains(".")) {
-            this.context.changeState(new WinState());
+            this.context.changeState("Win");  // Geef de naam van de staat door
             this.context.ending();
             return;
         }
@@ -63,9 +61,8 @@ public class PlayingState extends AHangmanState {
         this.context.turn();
     }
 
-
     public void ending() {
-        // does nothing
+        // Does nothing
     }
 
     private void changeShowWord(char letter) {

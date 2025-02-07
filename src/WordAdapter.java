@@ -1,5 +1,4 @@
 public class WordAdapter {
-
     private static WordAdapter instance;
 
     private WordAdapter() {}

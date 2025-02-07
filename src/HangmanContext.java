@@ -1,13 +1,27 @@
 public class HangmanContext {
     private AHangmanState currentState;
+    private final IHangmanStateFactory stateFactory;
 
-    public void changeState(AHangmanState newState) {
-        this.currentState = newState;
-        this.currentState.setContext(this);
+    public HangmanContext(IHangmanStateFactory stateFactory) {
+        this.stateFactory = stateFactory;
     }
 
-    public AHangmanState getCurrentState() {
-        return this.currentState;
+    public void changeState(String stateType) {
+        AHangmanState newState = null;
+
+        // Gebruik de factory om de juiste staat te creëren
+        if (stateType.equals("Playing")) {
+            newState = stateFactory.createPlayingState("hangman");
+        } else if (stateType.equals("Win")) {
+            newState = stateFactory.createWinState();
+        } else if (stateType.equals("Lose")) {
+            newState = stateFactory.createLoseState();
+        } else if (stateType.equals("End")) {
+            newState = stateFactory.createEndState();
+        }
+
+        this.currentState = newState;
+        this.currentState.setContext(this);
     }
 
     public void turn() {
@@ -24,5 +38,9 @@ public class HangmanContext {
         } else {
             throw new IllegalStateException("No state is set.");
         }
+    }
+
+    public AHangmanState getCurrentState() {
+        return currentState;
     }
 }
