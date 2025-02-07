@@ -7,7 +7,7 @@ Gebruikte Design Patterns
 
 1. **Singleton Pattern**: De `WordAdapter` class is geïmplementeerd als een Singleton, wat garandeert dat er slechts één instantie van deze class wordt gebruikt voor het controleren van letters in het woord.
 
-2. **Abstract Factory Pattern**: De `HangmanStateFactory` class is verantwoordelijk voor het creëren van verschillende toestanden van het spel, zoals het spelen, winnen, verliezen en beëindigen.
+2. **Factory Pattern**: De `IHangmanStateFactory` class is verantwoordelijk voor het creëren van verschillende toestanden van het spel, zoals het spelen, winnen, verliezen en beëindigen.
 
 3. **Proxy Pattern**: De `PlayingStateProxy` class beheert de fouten en de geraden letters van de speler. Het voorkomt dubbele pogingen om dezelfde letter te raden en houdt het aantal fouten bij.
 
@@ -19,3 +19,5 @@ Gebruikte Design Patterns
 
 # Samenwerking
 Het project is gehost op GitHub en ingeleverd als zip-bestand. Tijn heeft het State Pattern en een basis voor het spel gemaakt. Gio heeft de Factory, Singleton en Proxy patterns geïmplementeerd. Samen hebben we het project afgerond met een gelijke inzet.
+
+Bij de tweede poging hebben we samengewerkt via pair programming. Op basis van de feedback van de docent hebben we gezamenlijk de fouten geanalyseerd en verbeterd.
