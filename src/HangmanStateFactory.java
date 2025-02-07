@@ -1,4 +1,4 @@
-public class HangmanStateFactory implements AHangmanStateFactory {
+public class HangmanStateFactory implements IHangmanStateFactory {
     @Override
     public AHangmanState createPlayingState(String word) {
         return new PlayingState(word);

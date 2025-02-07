@@ -1,9 +1,8 @@
 public class HangmanContext {
     private AHangmanState currentState;
-    private AHangmanStateFactory stateFactory;
+    private final IHangmanStateFactory stateFactory;
 
-    // HangmanContext krijgt een AHangmanStateFactory als parameter
-    public HangmanContext(AHangmanStateFactory stateFactory) {
+    public HangmanContext(IHangmanStateFactory stateFactory) {
         this.stateFactory = stateFactory;
     }
 
@@ -41,7 +40,6 @@ public class HangmanContext {
         }
     }
 
-    // Voeg de getCurrentState() methode toe
     public AHangmanState getCurrentState() {
         return currentState;
     }

@@ -1,8 +1,8 @@
 public class HangmanGameBuilder {
-    private AHangmanStateFactory stateFactory;
+    private IHangmanStateFactory stateFactory;
     private String initialWord;
 
-    public HangmanGameBuilder setStateFactory(AHangmanStateFactory stateFactory) {
+    public HangmanGameBuilder setStateFactory(IHangmanStateFactory stateFactory) {
         this.stateFactory = stateFactory;
         return this;
     }
